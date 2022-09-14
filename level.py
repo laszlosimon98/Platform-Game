@@ -14,6 +14,9 @@ class Level:
 
         # Score
         self.score = Score(self.display_surface)
+
+        # solid
+        self.solid_tiles = ["Ground", "Ice"]
     
     def load_level(self, level) -> None:
         self.tiles = pygame.sprite.Group()
@@ -43,6 +46,15 @@ class Level:
         self.score.draw()
         self.score.update()
 
+    def bullet_collision(self) -> None:
+        player = self.player.sprite
+
+        for sprite in self.tiles.sprites():
+            for bullet in player.bullets.sprites():
+                type_name = type(sprite).__name__
+                if type_name in self.solid_tiles and sprite.rect.colliderect(bullet.rect):
+                    bullet.kill()
+
     def shiftx(self) -> None:
         player = self.player.sprite
 
@@ -59,11 +71,10 @@ class Level:
     def horizontal_collision(self, dt) -> None:
         player = self.player.sprite
         player.move(dt)
-        solid_tiles = ["Ground", "Ice"]
 
         for sprite in self.tiles.sprites():
             type_name = type(sprite).__name__
-            if sprite.rect.colliderect(player) and type_name in solid_tiles:
+            if sprite.rect.colliderect(player) and type_name in self.solid_tiles:
                 if player.direction.x > 0:
                     player.pos.x = sprite.rect.left - PLAYER_SIZE
                     player.rect.right = round(player.pos.x) + PLAYER_SIZE
@@ -75,11 +86,9 @@ class Level:
         player = self.player.sprite
         player.apply_gravity(dt)
 
-        solid_tiles = ["Ground", "Ice"]
-
         for sprite in self.tiles.sprites():
             type_name = type(sprite).__name__
-            if sprite.rect.colliderect(player) and type_name in solid_tiles:
+            if sprite.rect.colliderect(player) and type_name in self.solid_tiles:
                 if player.direction.y < 0:
                     player.pos.y = sprite.rect.bottom
                     player.rect.top = round(player.pos.y)
@@ -109,3 +118,4 @@ class Level:
 
         # Score
         self.draw_score()
+        self.bullet_collision()
