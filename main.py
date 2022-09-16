@@ -1,7 +1,7 @@
 import pygame, sys, time
 
 from settings import *
-from level import Level
+from src.level import Level
 
 pygame.init()
 
