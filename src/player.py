@@ -30,7 +30,7 @@ class Player(pygame.sprite.Sprite):
 
         self.weapon = {
             "pistol": Pistol(self.bullet_pos, 10, 10, "brown"),
-            "shotgun": Shotgun(self.bullet_pos, 20, 20, "red")
+            "shotgun": Shotgun(self.bullet_pos, SHOTGUN_BULLET_SIZE, SHOTGUN_BULLET_SIZE, "red")
         }
 
         self.weapon_range = {
@@ -68,7 +68,6 @@ class Player(pygame.sprite.Sprite):
         if mouse[0] and not self.weapon_timers[self.current_weapon].is_active:
             self.weapon[self.current_weapon].mouse_pos = mouse_pos
             self.weapon[self.current_weapon].distance = self.weapon[self.current_weapon].calculate_direction()
-            self.weapon[self.current_weapon].shoot(self.weapon[self.current_weapon].distance)
             self.weapon_timers[self.current_weapon].activate()
 
     def switch_weapon(self, index) -> None:
