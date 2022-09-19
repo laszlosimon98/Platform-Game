@@ -2,7 +2,7 @@ import pygame, math
 
 from settings import *
 from src.timer import Timer
-from src.weapon.weapon import Pistol, Shotgun
+from src.weapon.weapon import Pistol, Shotgun, Machinegun, Sniper
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, size):
@@ -28,21 +28,25 @@ class Player(pygame.sprite.Sprite):
         self.current_weapon = WEAPONS[self.weapon_index]
 
         self.weapon = {
-            "pistol": Pistol(self.bullet_pos, 10, 10, "brown"),
-            "shotgun": Shotgun(self.bullet_pos, SHOTGUN_BULLET_SIZE, SHOTGUN_BULLET_SIZE, "red")
+            "pistol": Pistol(self.bullet_pos, PISTOL_BULLET_SIZE, PISTOL_BULLET_SIZE, "brown"),
+            "shotgun": Shotgun(self.bullet_pos, SHOTGUN_BULLET_SIZE, SHOTGUN_BULLET_SIZE, "red"),
+            "machinegun": Machinegun(self.bullet_pos, MACHINEGUN_BULLET_SIZE, MACHINEGUN_BULLET_SIZE, "blue"),
+            "sniper": Sniper(self.bullet_pos, MACHINEGUN_BULLET_SIZE, MACHINEGUN_BULLET_SIZE, "white")
         }
 
         self.weapon_range = {
             "pistol": PISTOL_BULLET_MAX_RANGE,
-            "shotgun": SHOTGUN_BULLET_MAX_RANGE
+            "shotgun": SHOTGUN_BULLET_MAX_RANGE,
+            "machinegun": MACHINEGUN_BULLET_MAX_RANGE,
+            "sniper": SNIPER_BULLET_MAX_RANGE
         }
 
         # Timer
         self.weapon_timers = {
-            "pistol": Timer(PISTOL_BULLET_DELAY),
-            "shotgun": Timer(SHOTGUN_BULLET_DELAY),
-            "machinegun": Timer(MACHINEGUN_DELAY),
-            "sniper": Timer(SNIPER_DELAY),
+            "pistol": Timer(PISTOL_SHOT_DELAY),
+            "shotgun": Timer(SHOTGUN_SHOT_DELAY),
+            "machinegun": Timer(MACHINEGUN_SHOT_DELAY),
+            "sniper": Timer(SNIPER_SHOT_DELAY),
         }
 
     def get_input(self) -> None:
@@ -60,9 +64,13 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_SPACE] and not self.is_jump:
             self.jump()
         elif keys[pygame.K_1]:
-            self.switch_weapon(1)
+                self.switch_weapon(1)
         elif keys[pygame.K_2]:
             self.switch_weapon(2)
+        elif keys[pygame.K_3]:
+            self.switch_weapon(3)
+        elif keys[pygame.K_4]:
+            self.switch_weapon(4)
         
         if mouse[0] and not self.weapon_timers[self.current_weapon].is_active:
             self.weapon[self.current_weapon].mouse_pos = mouse_pos
