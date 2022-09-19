@@ -4,9 +4,9 @@ pygame.init()
 # LEVEL
 LEVEL = [
     'G                                                  G',
-    'G                                       P          G',
+    'G                                                  G',
     'G        GLLLG                                     G',
-    'G        GGGGG                                     G',
+    'G        GGGGG     P                               G',
     'G                                                  G',
     'G                 GGG                              G',
     'G                                                  G',
@@ -17,8 +17,9 @@ LEVEL = [
 
 # SURFACE
 TILE_SIZE = 64
-WIDTH = 800
+WIDTH = 1200
 HEIGHT = len(LEVEL) * TILE_SIZE
+MAX_WIDTH = len(LEVEL[0]) * TILE_SIZE
 
 # PLAYER
 PLAYER_SIZE = TILE_SIZE / 2
