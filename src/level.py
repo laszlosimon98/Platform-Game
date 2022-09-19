@@ -1,4 +1,4 @@
-import pygame
+import pygame, math
 
 from settings import *
 from src.tile import Ground, Water, Lava, Ice
@@ -9,6 +9,7 @@ class Level:
     def __init__(self, surface, level_data):
         self.display_surface = surface
         self.load_level(level_data)
+        self.start()
 
         self.world_shift = 0
 
@@ -37,6 +38,17 @@ class Level:
                         self.tiles.add(Ice((x, y), TILE_SIZE))
                     case 'P':
                         self.player.add(Player((x, y), PLAYER_SIZE))
+        
+    def start(self) -> None:
+        player = self.player.sprite
+        distance = player.pos.x + PLAYER_SIZE / 2 - WIDTH / 2
+
+        if (player.pos.x > WIDTH / 2):
+            for tile in self.tiles.sprites():
+                tile.start(distance)
+            
+            player.pos.x -= distance
+            player.rect.x = round(player.pos.x)
     
     def draw_score(self) -> None:
         self.score.draw()

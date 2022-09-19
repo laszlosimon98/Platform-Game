@@ -14,6 +14,10 @@ class Tile(pygame.sprite.Sprite):
         self.pos.x += shift * dt
         self.rect.x = round(self.pos.x)
     
+    def start(self, start_pos) -> None:
+        self.pos.x -= start_pos
+        self.rect.x = round(self.pos.x)
+    
 class Solid(Tile):
     def __init__(self, pos, size):
         super().__init__(pos, size)

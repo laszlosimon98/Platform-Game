@@ -11,9 +11,9 @@ class Player(pygame.sprite.Sprite):
         # Init
         self.image = pygame.Surface((size, size*2))
         self.image.fill("white")
-        self.rect = self.image.get_rect(topleft = pos)
+        self.rect = self.image.get_rect(center = pos)
 
-        self.pos = pygame.math.Vector2(self.rect.topleft)
+        self.pos = pygame.math.Vector2(self.rect.center)
         self.bullet_pos = pygame.math.Vector2(self.rect.center)
 
         # Movement

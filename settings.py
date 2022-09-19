@@ -4,12 +4,12 @@ pygame.init()
 # LEVEL
 LEVEL = [
     'G                                                  G',
-    'G                                                  G',
+    'G                                       P          G',
     'G        GLLLG                                     G',
     'G        GGGGG                                     G',
     'G                                                  G',
-    'G  P              GGG                              G',
-    'G  G                                               G',
+    'G                 GGG                              G',
+    'G                                                  G',
     'G                                                  G',
     'GWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWG',
     'GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG',
