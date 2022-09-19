@@ -37,7 +37,7 @@ class Shotgun(Weapon):
         direction = self.mouse_pos - self.pos
         direction = direction.normalize()
 
-        for step in range(-5, 5, 1):
+        for step in range(-5, 5, 2):
             angle = math.atan2(direction.x + step / 20, direction.y + step / 20)
 
             self.shoot(pygame.math.Vector2(math.sin(angle) * SHOTGUN_BULLET_SPEED, math.cos(angle) * SHOTGUN_BULLET_SPEED))

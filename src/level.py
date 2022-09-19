@@ -41,15 +41,21 @@ class Level:
     def draw_score(self) -> None:
         self.score.draw()
         self.score.update()
+    
+    def draw_line(self) -> None:
+        player = self.player.sprite
+        pygame.draw.line(self.display_surface, "white", (player.rect.centerx, player.rect.centery), pygame.mouse.get_pos())
 
-    # def bullet_collision(self) -> None:
-    #     player = self.player.sprite
+    def bullet_collision(self) -> None:
+        player = self.player.sprite
 
-    #     for sprite in self.tiles.sprites():
-    #         for bullet in player.bullets.sprites():
-    #             type_name = type(sprite).__name__
-    #             if type_name in self.solid_tiles and sprite.rect.colliderect(bullet.rect):
-    #                 bullet.kill()
+        for sprite in self.tiles.sprites():
+            for weapon_type in WEAPONS:
+                bullets = player.weapon[weapon_type].bullets.sprites()
+                for bullet in bullets:
+                    type_name = type(sprite).__name__
+                    if type_name in self.solid_tiles and sprite.rect.colliderect(bullet.rect):
+                        bullet.kill()
 
     def shiftx(self) -> None:
         player = self.player.sprite
@@ -109,7 +115,10 @@ class Level:
         self.player.draw(self.display_surface)
         self.player.update(dt)
         self.player.sprite.draw_bullets(self.display_surface)
+    
+        # Line
+        self.draw_line()
 
         # Score
         self.draw_score()
-        # self.bullet_collision()
+        self.bullet_collision()

@@ -24,9 +24,8 @@ class Player(pygame.sprite.Sprite):
         self.is_jump = False
 
         # Weapon
-        self.weapons = ["pistol", "shotgun", "machinegun", "sniper"]
         self.weapon_index = 0
-        self.current_weapon = self.weapons[self.weapon_index]
+        self.current_weapon = WEAPONS[self.weapon_index]
 
         self.weapon = {
             "pistol": Pistol(self.bullet_pos, 10, 10, "brown"),
@@ -72,7 +71,7 @@ class Player(pygame.sprite.Sprite):
 
     def switch_weapon(self, index) -> None:
         self.weapon_index = index - 1
-        self.current_weapon = self.weapons[self.weapon_index]
+        self.current_weapon = WEAPONS[self.weapon_index]
 
     def check_bullet(self) -> None:
         for key in self.weapon.keys():
