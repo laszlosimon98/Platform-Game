@@ -53,7 +53,6 @@ class Level:
             player.pos.x -= distance
             player.rect.x = round(player.pos.x)
 
-    
     def draw_score(self) -> None:
         self.score.draw()
         self.score.update()
@@ -76,10 +75,10 @@ class Level:
     def shiftx(self) -> None:
         player = self.player.sprite
 
-        if player.rect.x < WIDTH / SHIFT_EDGE and player.direction.x < 0:
+        if player.direction.x < 0:
             self.world_shift = SHIFT_SPEED
             player.speed = 0
-        elif player.rect.x > WIDTH - (WIDTH / SHIFT_EDGE) and player.direction.x > 0:
+        elif player.direction.x > 0:
             self.world_shift = -SHIFT_SPEED
             player.speed = 0
         else:
