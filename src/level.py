@@ -5,8 +5,11 @@ from src.tile import Ground, Water, Lava, Ice
 from src.player import Player
 from src.score import Score
 
+
 class Level:
     def __init__(self, surface, level_data):
+        self.player = None
+        self.tiles = None
         self.display_surface = surface
         self.load_level(level_data)
         self.start()
@@ -18,7 +21,7 @@ class Level:
 
         # solid
         self.solid_tiles = ["Ground", "Ice"]
-    
+
     def load_level(self, level) -> None:
         self.tiles = pygame.sprite.Group()
         self.player = pygame.sprite.GroupSingle()
@@ -38,7 +41,7 @@ class Level:
                         self.tiles.add(Ice((x, y), TILE_SIZE))
                     case 'P':
                         self.player.add(Player((x, y), PLAYER_SIZE))
-        
+
     def start(self) -> None:
         player = self.player.sprite
         distance = player.pos.x + PLAYER_SIZE / 2 - WIDTH / 2
@@ -46,20 +49,21 @@ class Level:
         if player.pos.x > MAX_WIDTH - WIDTH / 2:
             distance = MAX_WIDTH - WIDTH
 
-        if (player.pos.x > WIDTH / 2):
+        if player.pos.x > WIDTH / 2:
             for tile in self.tiles.sprites():
                 tile.start(distance)
-            
+
             player.pos.x -= distance
             player.rect.x = round(player.pos.x)
 
     def draw_score(self) -> None:
         self.score.draw()
         self.score.update()
-    
+
     def draw_line(self) -> None:
         player = self.player.sprite
-        pygame.draw.line(self.display_surface, "white", (player.rect.centerx, player.rect.centery), pygame.mouse.get_pos())
+        pygame.draw.line(self.display_surface, "white", (player.rect.centerx, player.rect.centery),
+                         pygame.mouse.get_pos())
 
     def bullet_collision(self) -> None:
         player = self.player.sprite
@@ -115,7 +119,7 @@ class Level:
                     player.rect.bottom = round(player.pos.y) + PLAYER_SIZE * 2
                     player.direction.y = 0
                     player.is_jump = False
-    
+
     def update(self, dt) -> None:
         # Tiles
         self.tiles.draw(self.display_surface)
@@ -130,7 +134,7 @@ class Level:
         self.player.draw(self.display_surface)
         self.player.update(dt)
         self.player.sprite.draw_bullets(self.display_surface)
-    
+
         # Line
         self.draw_line()
 

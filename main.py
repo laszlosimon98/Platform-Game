@@ -5,10 +5,11 @@ from src.level import Level
 
 pygame.init()
 
+
 class Game:
     def __init__(self):
+        pygame.display.set_caption("Cube Test")
         self.display_surface = pygame.display.set_mode((WIDTH, HEIGHT))
-        self.title = pygame.display.set_caption("Cube Test")
         self.clock = pygame.time.Clock()
 
         # LEVEL
@@ -31,6 +32,7 @@ class Game:
 
             self.clock.tick(60)
             self.draw(self.display_surface, dt)
+
 
 if __name__ == "__main__":
     game = Game()

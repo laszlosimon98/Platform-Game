@@ -4,14 +4,15 @@ from settings import *
 from src.timer import Timer
 from src.weapon.weapon import Pistol, Shotgun, Machinegun, Sniper
 
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, size):
         super().__init__()
 
         # Init
-        self.image = pygame.Surface((size, size*2))
+        self.image = pygame.Surface((size, size * 2))
         self.image.fill("white")
-        self.rect = self.image.get_rect(center = pos)
+        self.rect = self.image.get_rect(center=pos)
 
         self.pos = pygame.math.Vector2(self.rect.center)
         self.bullet_pos = pygame.math.Vector2(self.rect.center)
@@ -60,18 +61,18 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = 1
         else:
             self.direction.x = 0
-        
+
         if keys[pygame.K_SPACE] and not self.is_jump:
             self.jump()
         elif keys[pygame.K_1]:
-                self.switch_weapon(1)
+            self.switch_weapon(1)
         elif keys[pygame.K_2]:
             self.switch_weapon(2)
         elif keys[pygame.K_3]:
             self.switch_weapon(3)
         elif keys[pygame.K_4]:
             self.switch_weapon(4)
-        
+
         if mouse[0] and not self.weapon_timers[self.current_weapon].is_active:
             self.weapon[self.current_weapon].mouse_pos = mouse_pos
             self.weapon[self.current_weapon].distance = self.weapon[self.current_weapon].calculate_direction()
@@ -100,13 +101,13 @@ class Player(pygame.sprite.Sprite):
         self.pos.x += self.direction.x * self.speed * dt
         self.rect.x = round(self.pos.x)
         self.bullet_pos.x = self.rect.x + PLAYER_SIZE / 2
-    
+
     def apply_gravity(self, dt) -> None:
         self.direction.y += self.gravity * dt
         self.pos.y += self.direction.y
         self.rect.y = round(self.pos.y)
         self.bullet_pos.y = self.rect.y + PLAYER_SIZE / 2
-    
+
     def update_timers(self) -> None:
         for timer in self.weapon_timers.values():
             timer.update()
@@ -118,7 +119,7 @@ class Player(pygame.sprite.Sprite):
 
         for weapon in self.weapon.values():
             weapon.update(dt)
-    
+
     def draw_bullets(self, surface):
         for weapon in self.weapon.values():
             weapon.bullets.draw(surface)
