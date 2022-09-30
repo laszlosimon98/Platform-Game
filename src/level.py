@@ -62,11 +62,6 @@ class Level:
         self.score.draw()
         self.score.update()
 
-    def draw_line(self) -> None:
-        player = self.player.sprite
-        pygame.draw.line(self.display_surface, "white", (player.rect.centerx, player.rect.centery),
-                         pygame.mouse.get_pos())
-
     def bullet_collision(self) -> None:
         player = self.player.sprite
 
@@ -112,7 +107,7 @@ class Level:
     def update(self, dt) -> None:
         # Tiles
         self.camera_group.custom_draw(self.player.sprite)
-        self.tiles.update(self.world_shift, dt)
+        self.tiles.update(dt)
 
         # Collision
         self.horizontal_collision(dt)
@@ -121,9 +116,6 @@ class Level:
         # Player
         self.player.update(dt)
         self.player.sprite.draw_bullets(self.display_surface)
-
-        # Line
-        self.draw_line()
 
         # Score
         self.draw_score()

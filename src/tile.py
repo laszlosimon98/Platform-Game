@@ -13,16 +13,8 @@ class Tile(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=pos)
         self.pos = pygame.math.Vector2(self.rect.topleft)
 
-    def update(self, shift, dt) -> None:
-        self.pos.x += shift * dt
-        self.rect.x = round(self.pos.x)
-
     def start(self, start_pos) -> None:
         self.pos.x -= start_pos
-        self.rect.x = round(self.pos.x)
-
-    def update_pos(self, new_pos) -> None:
-        self.pos = new_pos
         self.rect.x = round(self.pos.x)
 
 
@@ -40,9 +32,7 @@ class ShapeLess(Tile):
         self.rect.y = round(self.pos.y)
         self.animation += 0.05
 
-    def update(self, shift, dt) -> None:
-        self.pos.x += shift * dt
-        self.rect.x = round(self.pos.x)
+    def update(self, dt) -> None:
         self.wave(dt)
 
 
