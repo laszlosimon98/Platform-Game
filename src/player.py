@@ -13,6 +13,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.Surface((size, size * 2))
         self.image.fill("white")
         self.rect = self.image.get_rect(center=pos)
+        self.group = group
 
         self.pos = pygame.math.Vector2(self.rect.center)
         self.bullet_pos = pygame.math.Vector2(self.rect.center)
@@ -76,7 +77,7 @@ class Player(pygame.sprite.Sprite):
 
         if mouse[0] and not self.weapon_timers[self.current_weapon].is_active:
             self.weapon[self.current_weapon].mouse_pos = mouse_pos
-            self.weapon[self.current_weapon].distance = self.weapon[self.current_weapon].calculate_direction()
+            self.weapon[self.current_weapon].distance = self.weapon[self.current_weapon].calculate_direction(self.group)
             self.weapon_timers[self.current_weapon].activate()
 
     def switch_weapon(self, index) -> None:
@@ -120,7 +121,3 @@ class Player(pygame.sprite.Sprite):
 
         for weapon in self.weapon.values():
             weapon.update(dt)
-
-    def draw_bullets(self, surface):
-        for weapon in self.weapon.values():
-            weapon.bullets.draw(surface)

@@ -3,8 +3,8 @@ from settings import *
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, pos, w_size, h_size, color, direction):
-        super().__init__()
+    def __init__(self, pos, w_size, h_size, color, direction, group):
+        super().__init__(group)
         self.image = pygame.Surface((w_size, h_size))
         self.image.fill(color)
         self.rect = self.image.get_rect(center=pos)

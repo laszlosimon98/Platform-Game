@@ -115,7 +115,6 @@ class Level:
 
         # Player
         self.player.update(dt)
-        self.player.sprite.draw_bullets(self.display_surface)
 
         # Score
         self.draw_score()
