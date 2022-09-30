@@ -1,6 +1,3 @@
-import pygame
-pygame.init()
-
 # LEVEL
 LEVEL = [
     'G                                                  G',
@@ -17,7 +14,7 @@ LEVEL = [
 
 # SURFACE
 TILE_SIZE = 64
-WIDTH = 800
+WIDTH = 1200
 HEIGHT = len(LEVEL) * TILE_SIZE
 MAX_WIDTH = len(LEVEL[0]) * TILE_SIZE
 

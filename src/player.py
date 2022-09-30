@@ -6,8 +6,8 @@ from src.weapon.weapon import Pistol, Shotgun, Machinegun, Sniper
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, size):
-        super().__init__()
+    def __init__(self, pos, size, group):
+        super().__init__(group)
 
         # Init
         self.image = pygame.Surface((size, size * 2))
@@ -23,6 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.jump_speed = JUMP_SPEED
         self.gravity = GRAVITY_FORCE
         self.is_jump = False
+        self.is_moving = False
 
         # Weapon
         self.weapon_index = 0

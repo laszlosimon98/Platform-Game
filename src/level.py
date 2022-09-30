@@ -1,9 +1,10 @@
-import pygame, math
+import pygame
 
 from settings import *
 from src.tile import Ground, Water, Lava, Ice
 from src.player import Player
 from src.score import Score
+from src.cameragroup import CameraGroup
 
 
 class Level:
@@ -11,6 +12,7 @@ class Level:
         self.player = None
         self.tiles = None
         self.display_surface = surface
+        self.camera_group = CameraGroup()
         self.load_level(level_data)
         self.start()
 
@@ -32,15 +34,15 @@ class Level:
                 y = row_index * TILE_SIZE
                 match cell:
                     case 'G':
-                        self.tiles.add(Ground((x, y), TILE_SIZE))
+                        self.tiles.add(Ground((x, y), TILE_SIZE, self.camera_group))
                     case 'W':
-                        self.tiles.add(Water((x, y), TILE_SIZE))
+                        self.tiles.add(Water((x, y), TILE_SIZE, self.camera_group))
                     case 'L':
-                        self.tiles.add(Lava((x, y), TILE_SIZE))
+                        self.tiles.add(Lava((x, y), TILE_SIZE, self.camera_group))
                     case 'I':
-                        self.tiles.add(Ice((x, y), TILE_SIZE))
+                        self.tiles.add(Ice((x, y), TILE_SIZE, self.camera_group))
                     case 'P':
-                        self.player.add(Player((x, y), PLAYER_SIZE))
+                        self.player.add(Player((x, y), PLAYER_SIZE, self.camera_group))
 
     def start(self) -> None:
         player = self.player.sprite
@@ -68,62 +70,48 @@ class Level:
     def bullet_collision(self) -> None:
         player = self.player.sprite
 
-        for sprite in self.tiles.sprites():
+        for tile in self.tiles.sprites():
             for weapon_type in WEAPONS:
                 bullets = player.weapon[weapon_type].bullets.sprites()
                 for bullet in bullets:
-                    type_name = type(sprite).__name__
-                    if type_name in self.solid_tiles and sprite.rect.colliderect(bullet.rect):
+                    type_name = type(tile).__name__
+                    if type_name in self.solid_tiles and tile.rect.colliderect(bullet.rect):
                         bullet.kill()
-
-    def shiftx(self) -> None:
-        player = self.player.sprite
-
-        if player.direction.x < 0:
-            self.world_shift = SHIFT_SPEED
-            player.speed = 0
-        elif player.direction.x > 0:
-            self.world_shift = -SHIFT_SPEED
-            player.speed = 0
-        else:
-            self.world_shift = 0
-            player.speed = PLAYER_SPEED
 
     def horizontal_collision(self, dt) -> None:
         player = self.player.sprite
         player.move(dt)
 
-        for sprite in self.tiles.sprites():
-            type_name = type(sprite).__name__
-            if sprite.rect.colliderect(player) and type_name in self.solid_tiles:
+        for tile in self.tiles.sprites():
+            type_name = type(tile).__name__
+            if tile.rect.colliderect(player) and type_name in self.solid_tiles:
                 if player.direction.x > 0:
-                    player.pos.x = sprite.rect.left - PLAYER_SIZE
+                    player.pos.x = tile.rect.left - PLAYER_SIZE
                     player.rect.right = round(player.pos.x) + PLAYER_SIZE
                 elif player.direction.x < 0:
-                    player.pos.x = sprite.rect.right
+                    player.pos.x = tile.rect.right
                     player.rect.left = round(player.pos.x)
 
     def vertical_collision(self, dt) -> None:
         player = self.player.sprite
         player.apply_gravity(dt)
 
-        for sprite in self.tiles.sprites():
-            type_name = type(sprite).__name__
-            if sprite.rect.colliderect(player) and type_name in self.solid_tiles:
+        for tile in self.tiles.sprites():
+            type_name = type(tile).__name__
+            if tile.rect.colliderect(player) and type_name in self.solid_tiles:
                 if player.direction.y < 0:
-                    player.pos.y = sprite.rect.bottom
+                    player.pos.y = tile.rect.bottom
                     player.rect.top = round(player.pos.y)
                     player.direction.y = 0
                 elif player.direction.y > 0:
-                    player.pos.y = sprite.rect.top - PLAYER_SIZE * 2
+                    player.pos.y = tile.rect.top - PLAYER_SIZE * 2
                     player.rect.bottom = round(player.pos.y) + PLAYER_SIZE * 2
                     player.direction.y = 0
                     player.is_jump = False
 
     def update(self, dt) -> None:
         # Tiles
-        self.tiles.draw(self.display_surface)
-        self.shiftx()
+        self.camera_group.custom_draw(self.player.sprite)
         self.tiles.update(self.world_shift, dt)
 
         # Collision
@@ -131,7 +119,6 @@ class Level:
         self.vertical_collision(dt)
 
         # Player
-        self.player.draw(self.display_surface)
         self.player.update(dt)
         self.player.sprite.draw_bullets(self.display_surface)
 

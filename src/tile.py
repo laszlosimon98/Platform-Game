@@ -4,8 +4,8 @@ import random
 
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, pos, size):
-        super().__init__()
+    def __init__(self, pos, size, group):
+        super().__init__(group)
         self.animation = random.random()
 
         # Init
@@ -21,15 +21,19 @@ class Tile(pygame.sprite.Sprite):
         self.pos.x -= start_pos
         self.rect.x = round(self.pos.x)
 
+    def update_pos(self, new_pos) -> None:
+        self.pos = new_pos
+        self.rect.x = round(self.pos.x)
+
 
 class Solid(Tile):
-    def __init__(self, pos, size):
-        super().__init__(pos, size)
+    def __init__(self, pos, size, group):
+        super().__init__(pos, size, group)
 
 
 class ShapeLess(Tile):
-    def __init__(self, pos, size):
-        super().__init__(pos, size)
+    def __init__(self, pos, size, group):
+        super().__init__(pos, size, group)
 
     def wave(self, dt) -> None:
         self.pos.y += math.sin(self.animation) * 20 * dt
@@ -43,26 +47,26 @@ class ShapeLess(Tile):
 
 
 class Ground(Solid):
-    def __init__(self, pos, size):
-        super().__init__(pos, size)
+    def __init__(self, pos, size, group):
+        super().__init__(pos, size, group)
         # image = pygame.image.load("imgs/wall.jpg").convert_alpha()
         # self.image.blit(image, (0, 0))
         self.image.fill("gray")
 
 
 class Ice(Solid):
-    def __init__(self, pos, size):
-        super().__init__(pos, size)
+    def __init__(self, pos, size, group):
+        super().__init__(pos, size, group)
         self.image.fill('lightblue')
 
 
 class Water(ShapeLess):
-    def __init__(self, pos, size):
-        super().__init__(pos, size)
+    def __init__(self, pos, size, group):
+        super().__init__(pos, size, group)
         self.image.fill("blue")
 
 
 class Lava(ShapeLess):
-    def __init__(self, pos, size):
-        super().__init__(pos, size)
+    def __init__(self, pos, size, group):
+        super().__init__(pos, size, group)
         self.image.fill('red')
