@@ -1,16 +1,7 @@
+from src.mapIO import MapIO
+
 # LEVEL
-LEVEL = [
-    'G                                                  G',
-    'G                                                  G',
-    'G        GLLLG                                     G',
-    'G        GGGGGGG   P                               G',
-    'G                                                  G',
-    'G               G GGG                              G',
-    'G             G          G                         G',
-    'G              G                                   G',
-    'GWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWG',
-    'GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG',
-    ]
+LEVEL = MapIO.load("D:/Projects/Python/Platform-Game/maps/map1.txt")
 
 # SURFACE
 TILE_SIZE = 64
