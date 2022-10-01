@@ -1,10 +1,10 @@
 import pygame
 
 from settings import *
-from src.tile import Ground, Water, Lava, Ice
-from src.player import Player
-from src.score import Score
-from src.cameragroup import CameraGroup
+from src.map.tile import Ground, Water, Lava, Ice
+from src.entity.player import Player
+from src.other.score import Score
+from src.camera.cameragroup import CameraGroup
 
 
 class Level:

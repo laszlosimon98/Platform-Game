@@ -1,4 +1,4 @@
-from src.mapIO import MapIO
+from src.map.mapIO import MapIO
 
 # LEVEL
 LEVEL = MapIO.load("D:/Projects/Python/Platform-Game/maps/map1.txt")

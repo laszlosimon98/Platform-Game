@@ -1,7 +1,7 @@
 import pygame, math
 
 from settings import *
-from src.timer import Timer
+from src.other.timer import Timer
 from src.weapon.weapon import Pistol, Shotgun, Machinegun, Sniper
 
 
