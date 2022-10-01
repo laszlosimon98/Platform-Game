@@ -8,7 +8,7 @@ from src.other.score import Score
 
 
 class Level:
-    def __init__(self, surface, level_data):
+    def __init__(self, surface: pygame.display, level_data: list[list[str]]):
         self.tiles = pygame.sprite.Group()
         self.player = pygame.sprite.GroupSingle()
         self.display_surface = surface
@@ -26,7 +26,7 @@ class Level:
         # solid
         self.solid_tiles = ["Ground", "Ice"]
 
-    def load_level(self, level) -> None:
+    def load_level(self, level: list[list[str]]) -> None:
         for row_index, row in enumerate(level):
             for col_index, cell in enumerate(row):
                 x = col_index * TILE_SIZE
@@ -59,7 +59,6 @@ class Level:
 
     def draw_score(self) -> None:
         self.score.draw()
-        self.score.update()
 
     def bullet_collision(self) -> None:
         player = self.player.sprite
@@ -72,7 +71,7 @@ class Level:
                     if type_name in self.solid_tiles and tile.rect.colliderect(bullet.rect):
                         bullet.kill()
 
-    def horizontal_collision(self, dt) -> None:
+    def horizontal_collision(self, dt: float) -> None:
         player = self.player.sprite
         player.move(dt)
 
@@ -86,7 +85,7 @@ class Level:
                     player.pos.x = tile.rect.right
                     player.rect.left = round(player.pos.x)
 
-    def vertical_collision(self, dt) -> None:
+    def vertical_collision(self, dt: float) -> None:
         player = self.player.sprite
         player.apply_gravity(dt)
 
@@ -103,7 +102,7 @@ class Level:
                     player.direction.y = 0
                     player.is_jump = False
 
-    def update(self, dt) -> None:
+    def update(self, dt: float) -> None:
         # Tiles
         self.camera_group.custom_draw(self.player.sprite)
         self.tiles.update(dt)

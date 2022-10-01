@@ -9,7 +9,7 @@ from src.weapon.weapon import Pistol, Shotgun, Machinegun, Sniper
 
 
 class Player(Entity):
-    def __init__(self, pos, size, group, color, speed):
+    def __init__(self, pos: pygame.math.Vector2, size: int, group: pygame.sprite.Group, color: str, speed: int):
         super().__init__(pos, size, group, color, speed)
 
         # Movement
@@ -75,7 +75,7 @@ class Player(Entity):
             # self.weapon[self.current_weapon].distance = self.weapon[self.current_weapon].calculate_direction()
             self.weapon_timers[self.current_weapon].activate()
 
-    def switch_weapon(self, index) -> None:
+    def switch_weapon(self, index: int) -> None:
         self.weapon_index = index - 1
         self.current_weapon = WEAPONS[self.weapon_index]
 
@@ -94,12 +94,12 @@ class Player(Entity):
         self.is_jump = True
         self.direction.y = self.jump_speed
 
-    def move(self, dt) -> None:
+    def move(self, dt: float) -> None:
         self.pos.x += self.direction.x * self.speed * dt
         self.rect.x = round(self.pos.x)
         self.bullet_pos.x = self.rect.x + PLAYER_SIZE / 2
 
-    def apply_gravity(self, dt) -> None:
+    def apply_gravity(self, dt: float) -> None:
         self.direction.y += self.gravity * dt
         self.pos.y += self.direction.y
         self.rect.y = round(self.pos.y)
@@ -109,7 +109,7 @@ class Player(Entity):
         for timer in self.weapon_timers.values():
             timer.update()
 
-    def update(self, dt) -> None:
+    def update(self, dt: float) -> None:
         self.get_input()
         self.update_timers()
         self.check_bullet()

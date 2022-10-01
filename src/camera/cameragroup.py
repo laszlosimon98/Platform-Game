@@ -11,11 +11,11 @@ class CameraGroup(pygame.sprite.Group):
         self.half_w = self.display_surface.get_size()[0] // 2
         self.half_h = self.display_surface.get_size()[1] // 2
 
-    def center_target_camera(self, target):
+    def center_target_camera(self, target: pygame.sprite):
         self.offset.x = target.rect.centerx - self.half_w
         self.offset.y = target.rect.centery - self.half_h
 
-    def custom_draw(self, player):
+    def custom_draw(self, player: pygame.sprite):
         self.center_target_camera(player)
 
         for sprite in sorted(self.sprites(), key=lambda sprite: sprite.rect.centery):

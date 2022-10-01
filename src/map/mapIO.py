@@ -1,6 +1,6 @@
 class MapIO:
     @staticmethod
-    def load(file):
+    def load(file: str):
         result = list()
         with open(file, "r") as load:
             file = load.read().strip().split(",")
@@ -10,5 +10,5 @@ class MapIO:
         return result
 
     @staticmethod
-    def save(file):
+    def save(file: str):
         pass

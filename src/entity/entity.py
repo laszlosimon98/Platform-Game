@@ -2,7 +2,7 @@ import pygame.sprite
 
 
 class Entity(pygame.sprite.Sprite):
-    def __init__(self, pos, size, group, color, speed):
+    def __init__(self, pos: pygame.math.Vector2, size: int, group: pygame.sprite.Group, color: str, speed: int):
         super(Entity, self).__init__(group)
 
         # Init

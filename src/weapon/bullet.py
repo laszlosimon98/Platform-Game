@@ -2,7 +2,8 @@ import pygame
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, pos, w_size, h_size, color, direction, group):
+    def __init__(self, pos: pygame.math.Vector2, w_size: int, h_size: int, color: str, direction: pygame.math.Vector2,
+                 group: pygame.sprite.Group):
         super(Bullet, self).__init__(group)
         self.image = pygame.Surface((w_size, h_size))
         self.image.fill(color)

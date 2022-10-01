@@ -8,7 +8,8 @@ from src.weapon.bullet import Bullet
 
 
 class Weapon:
-    def __init__(self, pos, w_size, h_size, color, group, mouse_pos=None):
+    def __init__(self, pos: pygame.math.Vector2, w_size: int, h_size: int, color: str,
+                 group: pygame.sprite.Group, mouse_pos=None):
         self.pos = pos
         self.w = w_size
         self.h = h_size
@@ -18,16 +19,17 @@ class Weapon:
 
         self.bullets = pygame.sprite.Group()
 
-    def shoot(self, direction) -> None:
+    def shoot(self, direction: pygame.math.Vector2) -> None:
         self.bullets.add(Bullet(self.pos, self.w, self.h, self.color, direction, self.group))
 
-    def update(self, dt) -> None:
+    def update(self, dt: float) -> None:
         self.bullets.update(dt)
 
 
 class Pistol(Weapon):
-    def __init__(self, pos, w_size, h_size, color, mouse_pos=None):
-        super(Pistol, self).__init__(pos, w_size, h_size, color, mouse_pos)
+    def __init__(self, pos: pygame.math.Vector2, w_size: int, h_size: int, color: str,
+                 group: pygame.sprite.Group, mouse_pos=None):
+        super(Pistol, self).__init__(pos, w_size, h_size, color, group, mouse_pos)
 
     def calculate_direction(self) -> list[pygame.math.Vector2]:
         direction = (self.mouse_pos - self.pos + self.group.offset).normalize()
@@ -36,8 +38,9 @@ class Pistol(Weapon):
 
 
 class Shotgun(Weapon):
-    def __init__(self, pos, w_size, h_size, color, mouse_pos=None):
-        super(Shotgun, self).__init__(pos, w_size, h_size, color, mouse_pos)
+    def __init__(self, pos: pygame.math.Vector2, w_size: int, h_size: int, color: str,
+                 group: pygame.sprite.Group, mouse_pos=None):
+        super(Shotgun, self).__init__(pos, w_size, h_size, color, group, mouse_pos)
 
     def calculate_direction(self) -> list[pygame.math.Vector2]:
         direction = (self.mouse_pos - self.pos + self.group.offset).normalize()
@@ -51,8 +54,9 @@ class Shotgun(Weapon):
 
 
 class Machinegun(Weapon):
-    def __init__(self, pos, w_size, h_size, color, mouse_pos=None):
-        super(Machinegun, self).__init__(pos, w_size, h_size, color, mouse_pos)
+    def __init__(self, pos: pygame.math.Vector2, w_size: int, h_size: int, color: str,
+                 group: pygame.sprite.Group, mouse_pos=None):
+        super(Machinegun, self).__init__(pos, w_size, h_size, color, group, mouse_pos)
 
     def calculate_direction(self) -> list[pygame.math.Vector2]:
         direction = (self.mouse_pos - self.pos + self.group.offset).normalize()
@@ -63,8 +67,9 @@ class Machinegun(Weapon):
 
 
 class Sniper(Weapon):
-    def __init__(self, pos, w_size, h_size, color, mouse_pos=None):
-        super(Sniper, self).__init__(pos, w_size, h_size, color, mouse_pos)
+    def __init__(self, pos: pygame.math.Vector2, w_size: int, h_size: int, color: str,
+                 group: pygame.sprite.Group, mouse_pos=None):
+        super(Sniper, self).__init__(pos, w_size, h_size, color, group, mouse_pos)
 
     def calculate_direction(self) -> list[pygame.math.Vector2]:
         direction = (self.mouse_pos - self.pos + self.group.offset).normalize()

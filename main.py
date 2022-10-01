@@ -17,7 +17,7 @@ class Game:
         # LEVEL
         self.level = Level(self.display_surface, LEVEL)
 
-    def draw(self, surface, dt) -> None:
+    def draw(self, surface: pygame.display, dt: float) -> None:
         surface.fill("black")
         self.level.update(dt)
         pygame.display.update()
