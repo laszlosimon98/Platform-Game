@@ -1,18 +1,20 @@
 import pygame
 
 from settings import *
-from src.map.tile import Ground, Water, Lava, Ice
-from src.entity.player import Player
-from src.other.score import Score
 from src.camera.cameragroup import CameraGroup
+from src.entity.player import Player
+from src.map.tile import Ground, Water, Lava, Ice
+from src.other.score import Score
 
 
 class Level:
     def __init__(self, surface, level_data):
-        self.player = None
-        self.tiles = None
+        self.tiles = pygame.sprite.Group()
+        self.player = pygame.sprite.GroupSingle()
         self.display_surface = surface
+
         self.camera_group = CameraGroup()
+
         self.load_level(level_data)
         self.start()
 
@@ -25,9 +27,6 @@ class Level:
         self.solid_tiles = ["Ground", "Ice"]
 
     def load_level(self, level) -> None:
-        self.tiles = pygame.sprite.Group()
-        self.player = pygame.sprite.GroupSingle()
-
         for row_index, row in enumerate(level):
             for col_index, cell in enumerate(row):
                 x = col_index * TILE_SIZE
@@ -42,7 +41,7 @@ class Level:
                     case 'I':
                         self.tiles.add(Ice((x, y), TILE_SIZE, self.camera_group))
                     case 'P':
-                        self.player.add(Player((x, y), PLAYER_SIZE, self.camera_group))
+                        self.player.add(Player((x, y), PLAYER_SIZE, self.camera_group, "white", PLAYER_SPEED))
 
     def start(self) -> None:
         player = self.player.sprite
@@ -99,8 +98,8 @@ class Level:
                     player.rect.top = round(player.pos.y)
                     player.direction.y = 0
                 elif player.direction.y > 0:
-                    player.pos.y = tile.rect.top - PLAYER_SIZE * 2
-                    player.rect.bottom = round(player.pos.y) + PLAYER_SIZE * 2
+                    player.pos.y = tile.rect.top - PLAYER_SIZE
+                    player.rect.bottom = round(player.pos.y) + PLAYER_SIZE
                     player.direction.y = 0
                     player.is_jump = False
 

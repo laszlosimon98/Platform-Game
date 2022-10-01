@@ -1,4 +1,5 @@
 import pygame
+
 from settings import *
 
 
@@ -10,7 +11,7 @@ class Score:
         self.extra_score = 0
 
     def draw(self) -> None:
-        text = self.font.render(f"Score: {self.time}", 0, "yellow")
+        text = self.font.render(f"Score: {self.time}", False, "yellow")
         x = WIDTH / 2 - text.get_width() / 2
         y = 30 - text.get_height() / 2
         self.surface.blit(text, (x, y))

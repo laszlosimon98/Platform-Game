@@ -1,30 +1,21 @@
-import pygame, math
+import math
+
+import pygame
 
 from settings import *
+from src.entity.entity import Entity
 from src.other.timer import Timer
 from src.weapon.weapon import Pistol, Shotgun, Machinegun, Sniper
 
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, size, group):
-        super().__init__(group)
-
-        # Init
-        self.image = pygame.Surface((size, size * 2))
-        self.image.fill("white")
-        self.rect = self.image.get_rect(center=pos)
-        self.group = group
-
-        self.pos = pygame.math.Vector2(self.rect.center)
-        self.bullet_pos = pygame.math.Vector2(self.rect.center)
+class Player(Entity):
+    def __init__(self, pos, size, group, color, speed):
+        super().__init__(pos, size, group, color, speed)
 
         # Movement
-        self.direction = pygame.math.Vector2(0, 0)
-        self.speed = PLAYER_SPEED
         self.jump_speed = JUMP_SPEED
         self.gravity = GRAVITY_FORCE
         self.is_jump = False
-        self.is_moving = False
 
         # Weapon
         self.weapon_index = 0
@@ -33,7 +24,8 @@ class Player(pygame.sprite.Sprite):
         self.weapon = {
             "pistol": Pistol(self.bullet_pos, PISTOL_BULLET_SIZE, PISTOL_BULLET_SIZE, "brown", self.group),
             "shotgun": Shotgun(self.bullet_pos, SHOTGUN_BULLET_SIZE, SHOTGUN_BULLET_SIZE, "red", self.group),
-            "machinegun": Machinegun(self.bullet_pos, MACHINEGUN_BULLET_SIZE, MACHINEGUN_BULLET_SIZE, "blue", self.group),
+            "machinegun": Machinegun(self.bullet_pos, MACHINEGUN_BULLET_SIZE, MACHINEGUN_BULLET_SIZE, "blue",
+                                     self.group),
             "sniper": Sniper(self.bullet_pos, MACHINEGUN_BULLET_SIZE, MACHINEGUN_BULLET_SIZE, "white", self.group)
         }
 

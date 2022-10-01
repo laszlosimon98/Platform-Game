@@ -1,4 +1,6 @@
-import pygame, sys, time
+import pygame
+import sys
+import time
 
 from settings import *
 from src.map.level import Level

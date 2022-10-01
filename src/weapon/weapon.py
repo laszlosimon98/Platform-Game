@@ -1,6 +1,7 @@
 import math
-import pygame
 import random
+
+import pygame
 
 from settings import *
 from src.weapon.bullet import Bullet
@@ -26,16 +27,17 @@ class Weapon:
 
 class Pistol(Weapon):
     def __init__(self, pos, w_size, h_size, color, mouse_pos=None):
-        super().__init__(pos, w_size, h_size, color, mouse_pos)
+        super(Pistol, self).__init__(pos, w_size, h_size, color, mouse_pos)
 
     def calculate_direction(self) -> list[pygame.math.Vector2]:
         direction = (self.mouse_pos - self.pos + self.group.offset).normalize()
         angle = math.atan2(direction.x, direction.y)
         return [pygame.math.Vector2(math.sin(angle) * PISTOL_BULLET_SPEED, math.cos(angle) * PISTOL_BULLET_SPEED)]
 
+
 class Shotgun(Weapon):
     def __init__(self, pos, w_size, h_size, color, mouse_pos=None):
-        super().__init__(pos, w_size, h_size, color, mouse_pos)
+        super(Shotgun, self).__init__(pos, w_size, h_size, color, mouse_pos)
 
     def calculate_direction(self) -> list[pygame.math.Vector2]:
         direction = (self.mouse_pos - self.pos + self.group.offset).normalize()
@@ -50,7 +52,7 @@ class Shotgun(Weapon):
 
 class Machinegun(Weapon):
     def __init__(self, pos, w_size, h_size, color, mouse_pos=None):
-        super().__init__(pos, w_size, h_size, color, mouse_pos)
+        super(Machinegun, self).__init__(pos, w_size, h_size, color, mouse_pos)
 
     def calculate_direction(self) -> list[pygame.math.Vector2]:
         direction = (self.mouse_pos - self.pos + self.group.offset).normalize()
@@ -62,7 +64,7 @@ class Machinegun(Weapon):
 
 class Sniper(Weapon):
     def __init__(self, pos, w_size, h_size, color, mouse_pos=None):
-        super().__init__(pos, w_size, h_size, color, mouse_pos)
+        super(Sniper, self).__init__(pos, w_size, h_size, color, mouse_pos)
 
     def calculate_direction(self) -> list[pygame.math.Vector2]:
         direction = (self.mouse_pos - self.pos + self.group.offset).normalize()
