@@ -20,6 +20,7 @@ class Player(Entity):
         # Weapon
         self.weapon_index = 0
         self.current_weapon = WEAPONS[self.weapon_index]
+        self.is_reloading = False
 
         self.weapon = {
             "pistol": Pistol(self.bullet_pos, PISTOL_BULLET_SIZE, PISTOL_BULLET_SIZE, "brown", self.group),
@@ -44,6 +45,13 @@ class Player(Entity):
             "sniper": Timer(SNIPER_SHOT_DELAY),
         }
 
+        self.weapon_reload_timers = {
+            "pistol": Timer(PISTOL_RELOAD_TIME),
+            "shotgun": Timer(SHOTGUN_RELOAD_TIME),
+            "machinegun": Timer(MACHINEGUN_RELOAD_TIME),
+            "sniper": Timer(SNIPER_RELOAD_TIME),
+        }
+
     def get_input(self) -> None:
         keys = pygame.key.get_pressed()
         mouse = pygame.mouse.get_pressed()
@@ -58,7 +66,8 @@ class Player(Entity):
 
         if keys[pygame.K_SPACE] and not self.is_jump:
             self.jump()
-        elif keys[pygame.K_1]:
+
+        if keys[pygame.K_1]:
             self.switch_weapon(1)
         elif keys[pygame.K_2]:
             self.switch_weapon(2)
@@ -67,13 +76,16 @@ class Player(Entity):
         elif keys[pygame.K_4]:
             self.switch_weapon(4)
 
-        if mouse[0] and not self.weapon_timers[self.current_weapon].is_active:
-            self.weapon[self.current_weapon].mouse_pos = mouse_pos
-            directions = self.weapon[self.current_weapon].calculate_direction()
-            for direction in directions:
-                self.weapon[self.current_weapon].shoot(direction)
-            # self.weapon[self.current_weapon].distance = self.weapon[self.current_weapon].calculate_direction()
-            self.weapon_timers[self.current_weapon].activate()
+        if keys[pygame.K_r]:
+            self.weapon[self.current_weapon].ammo = 0
+
+        if mouse[0]:
+            if self.weapon[self.current_weapon].ammo != 0 and not self.weapon_timers[self.current_weapon].is_active:
+                self.weapon[self.current_weapon].mouse_pos = mouse_pos
+                directions = self.weapon[self.current_weapon].calculate_direction()
+                for direction in directions:
+                    self.weapon[self.current_weapon].shoot(direction)
+                self.weapon_timers[self.current_weapon].activate()
 
     def switch_weapon(self, index: int) -> None:
         self.weapon_index = index - 1
@@ -109,10 +121,14 @@ class Player(Entity):
         for timer in self.weapon_timers.values():
             timer.update()
 
+        for timer in self.weapon_reload_timers.values():
+            timer.update()
+
     def update(self, dt: float) -> None:
         self.get_input()
         self.update_timers()
         self.check_bullet()
+        self.weapon[self.current_weapon].check_ammo()
 
         for weapon in self.weapon.values():
             weapon.update(dt)

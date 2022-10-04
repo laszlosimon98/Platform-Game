@@ -2,8 +2,8 @@ import pygame
 
 
 class Timer:
-    def __init__(self, duration: int, func=None):
-        self.duration = duration
+    def __init__(self, duration=0, func=None):
+        self.duration = duration + 1
         self.func = func
         self.start_time = 0
         self.is_active = False
@@ -22,3 +22,7 @@ class Timer:
             self.deactivate()
             if self.func:
                 self.func()
+
+    def get_time(self):
+        current_time = pygame.time.get_ticks()
+        return (self.duration // 1000) - ((current_time - self.start_time) // 1000)
